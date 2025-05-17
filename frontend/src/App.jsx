@@ -1,9 +1,10 @@
 import React from 'react'
+import Home from '../pages/Home'
 
 const App = () => {
   return (
-    <div>
-      <h1>volunteerPulse</h1>
+    <div className='w-full'>
+      <Home />
     </div>
   )
 }
