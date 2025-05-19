@@ -1,12 +1,21 @@
-import React from 'react'
-import Home from '../pages/Home'
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Home from "../pages/Home";
+import { ContextProvider } from "./context/Context"; // if you use context
+import Account from "./components/Login";
 
-const App = () => {
+function App() {
   return (
-    <div className='w-full'>
-      <Home />
-    </div>
-  )
+    <ContextProvider>
+      <div className='w-full'>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Account />} />
+        </Routes>
+      </div>
+    </ContextProvider>
+  );
 }
 
-export default App
+export default App;
