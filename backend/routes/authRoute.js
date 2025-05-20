@@ -13,7 +13,7 @@ authRouter.get(
 // 2. Handle Google OAuth callback
 authRouter.get(
   "/google/callback",
-  passport.authenticate("google", { failureRedirect: "/login", session: false }),
+  passport.authenticate("google", { failureRedirect: "/login", session: true }),
   googleAuthCallback
 );
 

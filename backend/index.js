@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import express from "express";
 import session from "express-session";
 import mongoose from "mongoose";
+import cors from 'cors'
 import userRouter from "./routes/userRoute.js";
 import authRouter from "./routes/authRoute.js";
 import cookieParser from "cookie-parser";
@@ -17,7 +18,10 @@ volunteerPulse.use(
     cookie: { secure: false }, // set to true if using HTTPS
   })
 );
-
+volunteerPulse.use(cors({
+  origin:'http://localhost:5173',
+  credentials:true
+}))
 volunteerPulse.use(express.json());
 volunteerPulse.use(cookieParser());
 volunteerPulse.use(passport.initialize());

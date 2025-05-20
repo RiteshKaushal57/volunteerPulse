@@ -1,20 +1,36 @@
 import React, { useState } from 'react'
 import { useContextProvider } from '../context/Context'
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
+
 
 const Account = () => {
-    const { login } = useContextProvider(); // use lowercase 'login'
+    const { signin } = useContextProvider(); // use lowercase 'login'
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
+    const navigate = useNavigate();
+    const handleGoggleLogin = async () => {
+        window.location.href = 'http://localhost:4000/auth/google'
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const result = await login(email, password);
-        if (!result.success) {
-            setError(result.message);
-        } else {
-            setError('');
-            // Optionally redirect or show success
+        setError('');     // Clear previous errors
+
+        try {
+            const result = await signin(email, password);
+            if (!result.success) {
+                setError(result.message);
+            } else {
+                setError('');
+                // Optionally redirect to homepage or dashboard
+                navigate('/'); // Redirect to home (change to your desired route)
+            }
+        } catch (error) {
+            setError('An unexpected error occurred. Please try again.');
         }
     };
 
@@ -30,7 +46,7 @@ const Account = () => {
                         <h2 className="text-4xl text-gray-900 font-medium">Sign in</h2>
                         <p className="text-sm text-gray-500/90 mt-3">Welcome back! Please sign in to continue</p>
 
-                        <button type="button" className="w-full mt-8 bg-gray-500/10 flex items-center justify-center h-12 rounded-full">
+                        <button type="button" onClick={handleGoggleLogin} className="w-full mt-8 bg-gray-500/10 flex items-center justify-center h-12 rounded-full cursor-pointer">
                             <img src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/login/googleLogo.svg" alt="googleLogo" />
                         </button>
 
@@ -75,7 +91,7 @@ const Account = () => {
                                 <input className="h-5" type="checkbox" id="checkbox" />
                                 <label className="text-sm" htmlFor="checkbox">Remember me</label>
                             </div>
-                            <a className="text-sm underline" href="#">Forgot password?</a>
+                            <Link className="text-sm underline" href="#">Forgot password?</Link>
                         </div>
 
                         <button type="submit" className="mt-8 w-full h-11 rounded-full text-white bg-indigo-500 hover:opacity-90 transition-opacity">
@@ -83,7 +99,7 @@ const Account = () => {
                         </button>
                         {error && <div className="text-red-500 text-sm mt-2">{error}</div>}
                         <p className="text-gray-500/90 text-sm mt-4">
-                            Don’t have an account? <a className="text-indigo-400 hover:underline" href="#">Sign up</a>
+                            Don’t have an account? <Link to='/register' className="text-indigo-400 hover:underline" href="#">Sign up</Link>
                         </p>
                     </form>
                 </div>
